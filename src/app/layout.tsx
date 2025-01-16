@@ -3,7 +3,7 @@ import "./globals.css";
 
 
 export const metadata: Metadata = {
-  title: "Verificar links da sua landing page",
+  title: "Check Link Landing Page",
   description: "Testa todos os links de uma landing page afim de conferir se todos os links vão para um link de afiliado informado.",
 };
 
