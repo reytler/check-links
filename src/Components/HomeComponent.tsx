@@ -1,10 +1,12 @@
 'use client'
 
 import { checkDTO } from "@/pages/api/checklink"
-import { Button, Form, Input, NextUIProvider } from "@nextui-org/react"
+import { Button, Form, Input } from "@nextui-org/react"
 import axios, { AxiosError } from "axios"
 import { FormEvent, useState } from "react"
 import { LoadingPoints } from "./LoadingPoints"
+import { MainProvider } from "./Providers/MainProvider"
+import { enumTypeNotification, Notify } from "./Notification"
 
 export function HomeComponent(){
   const [loading,setloading] = useState(false)
@@ -21,10 +23,12 @@ export function HomeComponent(){
 
         try {
           const response = await axios.post('/api/checklink',requestBody)
+          Notify(enumTypeNotification.SUCCESS,'Resultado dos links carregados!')
           console.log(response)
         } catch (error:unknown) {
           if(error instanceof AxiosError){
             console.log(error.response?.data.message)
+            Notify(enumTypeNotification.ERROR,error.response?.data.message)
           }
           setloading(false)
         } finally{
@@ -33,7 +37,7 @@ export function HomeComponent(){
     }
     
       return (
-        <NextUIProvider >
+        <MainProvider >
           <div className="flex justify-center items-center gap-4 flex-col">
             <h1 className="text-3xl font-bold">Verificador de links</h1>
             <Form className="w-full max-w-xs flex gap-8 mt-8" validationBehavior="native" onSubmit={handleSubmit}>
@@ -60,6 +64,6 @@ export function HomeComponent(){
               ) :'Testar Links'}</Button>
             </Form>
           </div>
-        </NextUIProvider >
+        </MainProvider >
       );
 }
